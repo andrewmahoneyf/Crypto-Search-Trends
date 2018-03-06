@@ -1,5 +1,4 @@
 
-setwd("~/info201b/Info-201-Final")
 source("scripts/process_data.R")
 # Loads Libraries 
 
@@ -9,6 +8,7 @@ library(rsconnect)
 library(ggplot2)
 library(forcats)
 
+red.text <- element_text(size=16, face = "bold.italic", color = "#f93e3e")
 
 shinyServer(function(input, output) {
   output$coinPlot <- renderPlot({
@@ -29,8 +29,12 @@ shinyServer(function(input, output) {
 
  #as.Date(input$plot_hover$x, origin = "1970-01-01")     
       ggplot(data=coin_selected, aes(x=as.Date(date), y=close)) +
-      geom_line(color="red")+
-      geom_point()   
+        geom_line(color="red") +
+        labs(x="Date", y="Price (USD)") + 
+        theme(plot.background = element_rect(fill="black")) +
+        theme(axis.text.y=element_text(color="white")) + theme(axis.text.x=element_text(colour="white")) + 
+        theme(axis.title = red.text)
+      #geom_point(size=0)   
 
          
       
