@@ -4,6 +4,8 @@ library(data.table)
 library(dplyr)
 library("lubridate")
 
+
+
 ## import static files
 system.time(crypto_data <- fread("../data/crypto_history.bz2"))
 system.time(news_data <- fread("../data/201718-filtered-news-complete.csv"))
@@ -11,6 +13,9 @@ system.time(google_data <- fread("../data/google_trends.csv"))
 
 # Manipulate both data sets for desired use and compatibility
 crypto_data <- crypto_data %>% filter(substr(date, 0, 4) == "2017" | substr(date, 0, 4) == "2018")
+
+# This was used to add one day to each date
+google_data$Week <- as.Date(google_data$Week) + 1
 
 # Create a data frame for top 5 cryptocoins
 top5 <- crypto_data %>% filter(ranknow <= 5)
@@ -20,6 +25,8 @@ top5$week <- strftime(top5$date,format = "%V")
 # and output a data frame for the specified cryptocurrency
 temp <- top5 %>% group_by(name) %>% summarise(Days = n())
 
+
+# This function returns the currency data grouped by week 
 GetDataByCurrencyWeekly <- function(symbol_name){
   dataset <- top5 %>% filter(symbol == symbol_name)
   dataset <- dataset %>% 
@@ -39,6 +46,7 @@ GetDataByCurrencyWeekly <- function(symbol_name){
   return(dataset)
 }
 
+# These store the weekly average data per currency
 ethereum <- GetDataByCurrencyWeekly("ETH")
 bitcoin <- GetDataByCurrencyWeekly("BTC")
 litecoin <- GetDataByCurrencyWeekly("LTC")
