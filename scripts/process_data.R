@@ -5,8 +5,6 @@ library(data.table)
 library(dplyr)
 library("lubridate")
 
-
-
 ## import static files
 system.time(crypto_data <- fread("data/crypto_history.bz2"))
 system.time(news_data <- fread("data/201718-filtered-news-complete.csv"))
