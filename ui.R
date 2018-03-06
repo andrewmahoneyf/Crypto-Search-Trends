@@ -1,10 +1,12 @@
 #Require shiny
-setwd("~/info201b/Info-201-Final")
 
 library(shiny)
+library(shinythemes)
 
 #Define the functionality of the user interface
 shinyUI(fluidPage(
+  
+  theme = shinytheme("darkly"),
   
   # Add a descriptive application title
   titlePanel("Crypto Correlation"),
@@ -21,7 +23,12 @@ shinyUI(fluidPage(
                   label = "Currency:",
                   choices = c("Bitcoin (BTC)", "Ethereum (ETH)", "Ripple (XRP)", "Bitcoin Cash (BCH)", "Litecoin (LTC)", "All"),
                   selected = "All"),
-
+      
+      radioButtons("radio", label = "Bitcoin Price Updates",
+                   choices = c("Daily", "Weekly"),
+                   selected = "Daily"
+      ),
+      
       #selectInput for calorie amount #inputID = calories
       selectInput(inputId = "price",
                   label = "Most Recent Price:",
