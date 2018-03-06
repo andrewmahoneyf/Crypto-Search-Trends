@@ -1,4 +1,5 @@
 
+
 source("scripts/process_data.R")
 # Loads Libraries 
 
@@ -14,31 +15,27 @@ shinyServer(function(input, output) {
   output$coinPlot <- renderPlot({
     
     if(input$currency == "Litecoin (LTC)") {
-      coin_selected <- top5 %>% filter(symbol == "LTC")
+      coin_selected <- litecoin
     }else if(input$currency == "Bitcoin (BTC)"){
-      coin_selected <- top5 %>% filter(symbol == "BTC")
+      coin_selected <- bitcoin
     }else if(input$currency == "Ripple (XRP)"){
-      coin_selected <- top5 %>% filter(symbol == "XRP")
+      coin_selected <- ripple
     }else if(input$currency == "Ethereum (ETH)"){
-      coin_selected <- top5 %>% filter(symbol == "ETH")
+      coin_selected <- ethereum
     }else if(input$currency == "Bitcoin Cash (BCH)"){
-      coin_selected <- top5 %>% filter(symbol == "BCH")
+      coin_selected <- bitcoin_cash
     }else {coin_selected <- top5
     }
     
-
- #as.Date(input$plot_hover$x, origin = "1970-01-01")     
-      ggplot(data=coin_selected, aes(x=as.Date(date), y=close)) +
-        geom_line(color="red") +
+      ggplot(data=coin_selected, aes()) +
+        geom_line(aes(x=as.Date(week_start), y=low_avg),color="red") +
+        #geom_line(data=google_data, aes(x=as.Date(week), y=Bitcoin: (Worldwide)),color="blue") +
+        scale_y_continuous(sec.axis = sec_axis(~.*0.8, name = "Close avg")) +
         labs(x="Date", y="Price (USD)") + 
         theme(plot.background = element_rect(fill="black")) +
         theme(axis.text.y=element_text(color="white")) + theme(axis.text.x=element_text(colour="white")) + 
         theme(axis.title = red.text)
       #geom_point(size=0)   
-
-         
-      
-      
   })
   
   
