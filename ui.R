@@ -1,4 +1,6 @@
 #Require shiny
+setwd("~/info201b/Info-201-Final")
+
 library(shiny)
 
 #Define the functionality of the user interface
@@ -10,6 +12,10 @@ shinyUI(fluidPage(
   # Add the app interactivity
   sidebarLayout(
     sidebarPanel(
+      tags$style(type="text/css",
+                 ".shiny-output-error { visibility: hidden; }",
+                 ".shiny-output-error:before { visibility: hidden; }"
+      ),
       #selectInput Manufacturer #inputID = Manufacturer
       selectInput(inputId = "currency",
                   label = "Currency:",
@@ -24,9 +30,13 @@ shinyUI(fluidPage(
       
     ),
     
+    
     # Show a plot of the generated distribution
     mainPanel(
-       plotOutput("coinPlot")
+      
+       plotOutput("coinPlot",  click = "plot_click"),
+       verbatimTextOutput("info")
     )
+    
   )
 ))
