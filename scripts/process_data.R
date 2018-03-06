@@ -11,7 +11,7 @@ system.time(news_data <- fread("data/201718-filtered-news-complete.csv"))
 system.time(google_data <- fread("data/google_trends.csv"))
 
 # Manipulate both data sets for desired use and compatibility
-crypto_data <- crypto_data %>% filter(substr(date, 0, 4) == "2017" | substr(date, 0, 4) == "2018")
+crypto_data <- crypto_data %>% filter(substr(date, 0, 4) == "2017") | substr(date, 0, 4) == "2018")
 
 # This was used to add one day to each date and change week column name
 google_data$Week <- as.Date(google_data$Week) + 1
@@ -51,4 +51,7 @@ bitcoin <- GetDataByCurrencyWeekly("BTC") %>% JoinGoogleTrends("Bitcoin")
 litecoin <- GetDataByCurrencyWeekly("LTC") %>% JoinGoogleTrends("Litecoin")
 bitcoin_cash <- GetDataByCurrencyWeekly("BCH") %>% JoinGoogleTrends("Bitcoin Cash")
 ripple <- GetDataByCurrencyWeekly("XRP") %>% JoinGoogleTrends("Ripple")
+
+# Update top5 data frame to match new format
+top5 <- rbind(bitcoin[, 1:11], ethereum[, 1:11], ripple[, 1:11], bitcoin_cash[, 1:11], litecoin[, 1:11])
 

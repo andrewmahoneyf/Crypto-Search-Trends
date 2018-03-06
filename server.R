@@ -1,5 +1,4 @@
 
-
 source("scripts/process_data.R")
 # Loads Libraries 
 
@@ -24,18 +23,23 @@ shinyServer(function(input, output) {
       coin_selected <- ethereum
     }else if(input$currency == "Bitcoin Cash (BCH)"){
       coin_selected <- bitcoin_cash
-    }else {coin_selected <- top5
+    }else {
+      coin_selected <- top5
     }
     
-      ggplot(data=coin_selected, aes()) +
-        geom_line(aes(x=as.Date(week_start), y=low_avg),color="red") +
-        #geom_line(data=google_data, aes(x=as.Date(week), y=Bitcoin: (Worldwide)),color="blue") +
-        scale_y_continuous(sec.axis = sec_axis(~.*0.8, name = "Close avg")) +
+
+ #as.Date(input$plot_hover$x, origin = "1970-01-01")     
+      ggplot(data=coin_selected, aes(x=as.Date(week_start), y=close_avg)) +
+        geom_line(color="red") +
         labs(x="Date", y="Price (USD)") + 
         theme(plot.background = element_rect(fill="black")) +
         theme(axis.text.y=element_text(color="white")) + theme(axis.text.x=element_text(colour="white")) + 
         theme(axis.title = red.text)
       #geom_point(size=0)   
+
+         
+      
+      
   })
   
   
