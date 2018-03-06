@@ -18,7 +18,7 @@ google_data$Week <- as.Date(google_data$Week) + 1
 
 # Create a data frame for top 5 cryptocoins
 top5 <- crypto_data %>% filter(ranknow <= 5)
-top5$week <- strftime(top5$date,format = "%V")
+top5$week <- strftime(top5$date,format = "%Y %W")
 
 # This function returns the currency data grouped by week 
 GetDataByCurrencyWeekly <- function(symbol_name){
