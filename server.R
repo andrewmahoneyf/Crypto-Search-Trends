@@ -1,7 +1,7 @@
 
 source("scripts/process_data.R")
 # Loads Libraries 
-
+library(scales)
 library(dplyr)
 library(plotly)
 library(rsconnect)
@@ -27,14 +27,27 @@ shinyServer(function(input, output) {
       coin_selected <- top5
     }
     
-
- #as.Date(input$plot_hover$x, origin = "1970-01-01")     
-      ggplot(data=coin_selected, aes(x=as.Date(week_start), y=close_avg)) +
-        geom_line(color="red") +
-        labs(x="Date", y="Price (USD)") + 
-        theme(plot.background = element_rect(fill="black")) +
-        theme(axis.text.y=element_text(color="white")) + theme(axis.text.x=element_text(colour="white")) + 
-        theme(axis.title = red.text)
+    #coin_selected <- filter(coin_selected$week_start< "2017-05-96")
+ #as.Date(input$plot_hover$x, origin = "1970-01-01")    
+    ggplot(data=coin_selected, aes(x=as.Date(week_start), y=close_avg)) +
+      geom_point(aes(color="red"), size=.5) +
+      geom_line(aes(color="red"), size=.5) + 
+      geom_errorbar(aes(ymin=low_avg, ymax=high_avg),
+                    size = .7,
+                    width=8,  color="red",                  
+                    position = position_dodge(.9)) +
+      scale_x_date(breaks = date_breaks("months"), labels = date_format("%b-%y"))+
+      theme(plot.background = element_rect(fill="black")) +
+      theme(axis.text.y=element_text(color="white")) + theme(axis.text.x=element_text(colour="white")) + 
+      theme(axis.title = red.text)
+    
+#      ggplot(data=coin_selected, aes(x=as.Date(week_start), y=close_avg)) +
+ #       geom_line(color="red") +
+    #    labs(x="Date", y="Price (USD)") + 
+   #     scale_x_date(breaks = date_breaks("months"), labels = date_format("%b-%y"))+
+  #      theme(plot.background = element_rect(fill="black")) +
+     #   theme(axis.text.y=element_text(color="white")) + theme(axis.text.x=element_text(colour="white")) + 
+      #  theme(axis.title = red.text)
       #geom_point(size=0)   
 
          
