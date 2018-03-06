@@ -1,7 +1,6 @@
 
 ## File used for processing data sets
 # install.packages(c("data.table", "dplyr"))
-master
 library(data.table)
 library(dplyr)
 library("lubridate")
