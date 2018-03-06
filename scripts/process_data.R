@@ -16,17 +16,12 @@ system.time(google_data <- fread("./data/google_trends.csv"))
 # Manipulate both data sets for desired use and compatibility
 crypto_data <- crypto_data %>% filter(substr(date, 0, 4) == "2017" | substr(date, 0, 4) == "2018")
 
-# This was used to add one day to each date
+# This was used to add one day to each date and change week column name
 google_data$Week <- as.Date(google_data$Week) + 1
 
 # Create a data frame for top 5 cryptocoins
 top5 <- crypto_data %>% filter(ranknow <= 5)
 top5$week <- strftime(top5$date,format = "%V")
-
-# Write function to take in the crypto data set and string parameter
-# and output a data frame for the specified cryptocurrency
-temp <- top5 %>% group_by(name) %>% summarise(Days = n())
-
 
 # This function returns the currency data grouped by week 
 GetDataByCurrencyWeekly <- function(symbol_name){
@@ -48,13 +43,15 @@ GetDataByCurrencyWeekly <- function(symbol_name){
   return(dataset)
 }
 
-# These store the weekly average data per currency
-ethereum <- GetDataByCurrencyWeekly("ETH")
-bitcoin <- GetDataByCurrencyWeekly("BTC")
-litecoin <- GetDataByCurrencyWeekly("LTC")
-bitcoin_cash <- GetDataByCurrencyWeekly("BCH")
-ripple <- GetDataByCurrencyWeekly("XRP")
+# Join google trends data with each cryptocurrency by week start
+JoinGoogleTrends <- function(df, currency){
+    return(left_join(df, select(google_data, Week, paste(currency, ": (Worldwide)", sep="")), by = c("week_start" = "Week")))
+}
 
-# Write a function to maniputale the crypto data and create a seperate
-# data frame with weekly averages instead of daily
+#  Store the weekly average data per currency and join Google trends data
+ethereum <- GetDataByCurrencyWeekly("ETH") %>% JoinGoogleTrends("Ethereum")
+bitcoin <- GetDataByCurrencyWeekly("BTC") %>% JoinGoogleTrends("Bitcoin")
+litecoin <- GetDataByCurrencyWeekly("LTC") %>% JoinGoogleTrends("Litecoin")
+bitcoin_cash <- GetDataByCurrencyWeekly("BCH") %>% JoinGoogleTrends("Bitcoin Cash")
+ripple <- GetDataByCurrencyWeekly("XRP") %>% JoinGoogleTrends("Ripple")
 
