@@ -71,7 +71,7 @@ shinyServer(function(input, output) {
     }
     
     ggplot(correlation, aes(x=as.Date(week_start), y=correlation[2])) +
-      geom_bar(stat = "identity", color = "green") + 
+      geom_bar(stat = "identity", aes(color=factor(coin_selected$symbol)),show.legend = F) + 
       theme(plot.background = element_rect(fill="black")) + labs(y = "Volume", x = "Month") +
       theme(panel.background = element_rect(fill = "black")) +
       scale_x_date(breaks = date_breaks("months"), labels = date_format("%b-%y")) +
