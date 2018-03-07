@@ -32,9 +32,9 @@ shinyServer(function(input, output) {
     }
 
     ggplot(data=coin_selected, aes(x=as.Date(week_start), y=close_avg)) +
-      geom_point(size=.5) + geom_line(aes(color=factor(input$currency)), size=.5) + 
-      geom_errorbar(aes(ymin=low_avg, ymax=high_avg),
-                    size = .7, width=8,  color="red",                  
+      geom_point(size=.5) + geom_line(aes(color=factor(coin_selected$symbol)), size=.5) + 
+      geom_errorbar(aes(ymin=low_avg, ymax=high_avg,color=factor(coin_selected$symbol)),
+                    size = .7, width=8,                  
                     position = position_dodge(.9)) +
       theme(plot.background = element_rect(fill="black")) + theme(legend.position='top') +
       theme(panel.background = element_rect(fill = "black")) +
