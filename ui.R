@@ -22,34 +22,38 @@ shinyUI(fluidPage(
       selectInput(inputId = "currency",
                   label = "Currency:",
                   choices = c("Bitcoin (BTC)", "Ethereum (ETH)", "Ripple (XRP)", "Bitcoin Cash (BCH)", "Litecoin (LTC)", "All"),
-                  selected = "Bitcoin (BTC)"),
+                  selected = "All"),
       
       radioButtons("radio",
-                   label = "Volume Indicator:",
-                   choices = c("Search Volume", "Trade Volume"),
-                   selected = "Search Volume"
+                   label = "Correlations",
+                   choices = c("Google Trends", "Crypto News", "All"),
+                   selected = "Google Trends"
       ),
       
-      radioButtons("radio2",
-                   label = "Display Crypto News Updates?",
-                   choices = c("Yes", "No"),
-                   selected = "Yes"
-      )
-    
+      #selectInput for calorie amount #inputID = calories
+      selectInput(inputId = "price",
+                  label = "Most Recent Price:",
+                  choices = c("Less than 10", "10 - 100", "100 - 500", "500 - 1000", "Over 1000", "All"),
+                  selected= "All")
+      
     ),
     
     
     # Show a plot of the generated distribution
     mainPanel(
       tabsetPanel(
-        tabPanel("Summary", dataTableOutput("description")),
+        tabPanel("Data", dataTableOutput("description")),
         tabPanel("Crypto Plot",
                  fluidRow(
-                 verbatimTextOutput("info"),
-                 plotOutput("coinPlot",  click = "plot_click"),
-                 plotOutput("coinPlot2")
-                 
-                 )
+                   verbatimTextOutput("info"),
+                   plotOutput("coinPlot",  click = "plot_click"),
+                   plotOutput("coinPlot2"))
+        ),
+        tabPanel("Summary",
+                 h3("what we did"),
+                 p("paragraph about methodology"),
+                 h3("what we found"),
+                 p("paragraph about results/findings")
                  
         )
       )
