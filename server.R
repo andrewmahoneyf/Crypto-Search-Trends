@@ -37,11 +37,14 @@ shinyServer(function(input, output) {
                     size = .7, width=8,  color="red",                  
                     position = position_dodge(.9)) +
       theme(plot.background = element_rect(fill="black")) + theme(legend.position='top') +
+      theme(panel.background = element_rect(fill = "black")) +
       theme(axis.text.y=element_text(color="white")) + theme(axis.title = red.text) + 
       labs(title=paste(input$currency,"Price Correlation"), y="Average Close Price", color="Trend Line") +
       theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank()) +
       theme(legend.title = element_text(colour = "steelblue",  face = "bold", size = (30)), 
-            legend.text = element_text(face = "italic", colour="steelblue4", size = (20)))
+            legend.text = element_text(face = "italic", colour="steelblue4", size = (20)), 
+            legend.background = element_rect(fill="black")) +
+      theme(panel.grid.major.x = element_blank(), panel.grid.minor.x = element_blank())
       
   })
   
@@ -61,7 +64,7 @@ shinyServer(function(input, output) {
       coin_selected <- top5
     }
     
-    if(input$radio == "Search Volume") {
+    if(input$radio == "Search Volume (Percentile Rank)") {
       correlation <- coin_selected %>% select(week_start,`Google Trends`)
     } else { #Display trade volume
       correlation <- coin_selected %>% select(week_start, volume_avg)
@@ -70,9 +73,11 @@ shinyServer(function(input, output) {
     ggplot(correlation, aes(x=as.Date(week_start), y=correlation[2])) +
       geom_bar(stat = "identity", color = "green") + 
       theme(plot.background = element_rect(fill="black")) + labs(y = "Volume", x = "Month") +
+      theme(panel.background = element_rect(fill = "black")) +
       scale_x_date(breaks = date_breaks("months"), labels = date_format("%b-%y")) +
       theme(axis.text.y=element_text(color="white")) + theme(axis.text.x=element_text(colour="white")) + 
-      theme(axis.title = red.text) + scale_color_discrete(name="Indicator", label = input$radio)
+      theme(axis.title = red.text) + scale_color_discrete(name="Indicator", label = input$radio) + 
+      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
     
   }, height = 125, units="px")
   
