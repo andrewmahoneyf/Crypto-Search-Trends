@@ -28,7 +28,7 @@ shinyServer(function(input, output) {
     }
     
     if(input$radio == "Google Trends") {
-      correlation <- coin_selected %>% select(`Google Trends`)
+      correlation <- coin_selected %>% select(week_start,`Google Trends`)
     } else if(input$radio == "Crypto News") {
       correlation <- news_data
     } else{
