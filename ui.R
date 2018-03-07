@@ -58,6 +58,6 @@ shinyUI(fluidPage(
         )
       )
     )
-    
+    #restore
   )
 ))
