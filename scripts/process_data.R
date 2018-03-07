@@ -20,6 +20,21 @@ google_data$Week <- as.Date(google_data$Week, format = "%m/%d/%y") + 1
 # Create a data frame for top 5 cryptocoins
 top5 <- crypto_data %>% filter(ranknow <= 5)
 top5$week <- strftime(top5$date, format = "%Y %W")
+top5$plotcolor <- "red"
+for (i in 1:271) {
+  if(top5[i,1] == "BTC") {
+    top5[i,8] == "green"
+  } else if(top5[i,1] == "ETH") {
+    top5[i,8] == "yellow"
+  } else if(top5[i,1] == "XRP") {
+    top5[i,8] == "orange"
+  } else if(top5[i,1] == "BCH") {
+    top5[i,8] == "green"
+  } else if(top5[i,1] == "LTC") {
+    top5[i,8] == "blue"
+  }
+}
+
 
 # This function returns the currency data grouped by week 
 GetDataByCurrencyWeekly <- function(symbol_name){
