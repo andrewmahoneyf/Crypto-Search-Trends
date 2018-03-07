@@ -27,11 +27,19 @@ shinyServer(function(input, output) {
       coin_selected <- top5
     }
     
+    if(input$radio == "Google Trends") {
+      correlation <- coin_selected %>% select(`Google Trends`)
+    } else if(input$radio == "Crypto News") {
+      correlation <- news_data
+    } else{
+      correlation <- news_data %>% mutate(`Google Trends` = coin_selected$`Google Trends`)
+    }
+    
     #coin_selected <- filter(coin_selected$week_start< "2017-05-96")
  #as.Date(input$plot_hover$x, origin = "1970-01-01")    
     ggplot(data=coin_selected, aes(x=as.Date(week_start), y=close_avg)) +
-      geom_point(aes(color="red"), size=.5) +
-      geom_line(aes(color="red"), size=.5) + 
+      geom_point(size=.5) +
+      geom_line(aes(color=factor(input$currency)), size=.5) + 
       geom_errorbar(aes(ymin=low_avg, ymax=high_avg),
                     size = .7,
                     width=8,  color="red",                  
@@ -39,7 +47,7 @@ shinyServer(function(input, output) {
       scale_x_date(breaks = date_breaks("months"), labels = date_format("%b-%y"))+
       theme(plot.background = element_rect(fill="black")) +
       theme(axis.text.y=element_text(color="white")) + theme(axis.text.x=element_text(colour="white")) + 
-      theme(axis.title = red.text)
+      theme(axis.title = red.text) + labs(y = "Weekly Average Close", x = "Week", color="Trend Line") 
     
 #      ggplot(data=coin_selected, aes(x=as.Date(week_start), y=close_avg)) +
  #       geom_line(color="red") +

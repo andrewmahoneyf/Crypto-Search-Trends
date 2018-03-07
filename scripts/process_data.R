@@ -8,17 +8,18 @@ library("lubridate")
 ## import static files
 system.time(crypto_data <- fread("data/crypto_history.bz2"))
 system.time(news_data <- fread("data/201718-filtered-news-complete.csv"))
-system.time(google_data <- fread("data/google_trends.csv"))
+google_data <- read.csv("data/google_trends.csv", sep=",", header=T, check.names=FALSE, colClasses=c(rep("factor", "numeric",5)))
 
-# Manipulate both data sets for desired use and compatibility
+# Manipulate data sets for desired use and compatibility
 crypto_data <- crypto_data %>% filter(substr(date, 0, 4) == "2017" | substr(date, 0, 4) == "2018")
-
-# This was used to add one day to each date and change week column name
-google_data$Week <- as.Date(google_data$Week) + 1
+news_data <- news_data %>% select(date, title, publication, url) 
+news_data$date <- as.Date(news_data$date, format = "%m/%d/%y")
+news_data$week_start <- floor_date(news_data$date, unit="week") + 1
+google_data$Week <- as.Date(google_data$Week, format = "%m/%d/%y") + 1
 
 # Create a data frame for top 5 cryptocoins
 top5 <- crypto_data %>% filter(ranknow <= 5)
-top5$week <- strftime(top5$date,format = "%Y %W")
+top5$week <- strftime(top5$date, format = "%Y %W")
 
 # This function returns the currency data grouped by week 
 GetDataByCurrencyWeekly <- function(symbol_name){
@@ -42,7 +43,9 @@ GetDataByCurrencyWeekly <- function(symbol_name){
 
 # Join google trends data with each cryptocurrency by week start
 JoinGoogleTrends <- function(df, currency){
-    return(left_join(df, select(google_data, Week, paste(currency, ": (Worldwide)", sep="")), by = c("week_start" = "Week")))
+    df <- left_join(df, select(google_data, Week, paste(currency, ": (Worldwide)", sep="")), by = c("week_start" = "Week"))
+    colnames(df)[12] <- "Google Trends"
+    return(df)
 }
 
 #  Store the weekly average data per currency and join Google trends data
@@ -54,4 +57,4 @@ ripple <- GetDataByCurrencyWeekly("XRP") %>% JoinGoogleTrends("Ripple")
 
 # Update top5 data frame to match new format
 top5 <- rbind(bitcoin[, 1:11], ethereum[, 1:11], ripple[, 1:11], bitcoin_cash[, 1:11], litecoin[, 1:11])
-
+top5$`Google Trends` <- ""

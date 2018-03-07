@@ -24,9 +24,10 @@ shinyUI(fluidPage(
                   choices = c("Bitcoin (BTC)", "Ethereum (ETH)", "Ripple (XRP)", "Bitcoin Cash (BCH)", "Litecoin (LTC)", "All"),
                   selected = "All"),
       
-      radioButtons("radio", label = "Bitcoin Price Updates",
-                   choices = c("Daily", "Weekly"),
-                   selected = "Daily"
+      radioButtons("radio",
+                   label = "Correlations",
+                   choices = c("Google Trends", "Crypto News", "All"),
+                   selected = "Google Trends"
       ),
       
       #selectInput for calorie amount #inputID = calories
