@@ -27,6 +27,7 @@ GetDataByCurrencyWeekly <- function(symbol_name){
   dataset <- dataset %>% 
     group_by(week) %>% 
     summarize(
+      symbol = symbol_name,
       week_start = as.Date(min(as.numeric(as.Date(date))), origin = "1970-01-01"), 
       week_end = as.Date(max(as.numeric(as.Date(date))), origin = "1970-01-01"), 
       open_avg = mean(open),
@@ -44,7 +45,9 @@ GetDataByCurrencyWeekly <- function(symbol_name){
 # Join google trends data with each cryptocurrency by week start
 JoinGoogleTrends <- function(df, currency){
     df <- left_join(df, select(google_data, Week, paste(currency, ": (Worldwide)", sep="")), by = c("week_start" = "Week"))
-    colnames(df)[12] <- "Google Trends"
+    colnames(df)[13] <- "Google Trends"
+    df$`Google Trends`=as.numeric(levels(df$`Google Trends`))[df$`Google Trends`]
+    df = df[-1,]
     return(df)
 }
 
@@ -57,4 +60,9 @@ ripple <- GetDataByCurrencyWeekly("XRP") %>% JoinGoogleTrends("Ripple")
 
 # Update top5 data frame to match new format
 top5 <- rbind(bitcoin[, 1:11], ethereum[, 1:11], ripple[, 1:11], bitcoin_cash[, 1:11], litecoin[, 1:11])
-top5$`Google Trends` <- ""
+google_data[2:6] <- data.frame(sapply(google_data[2:6], function(x) as.numeric(as.character(x))))
+google_data$`Google Trends` <- rowMeans(google_data[2:6])
+top5 <- left_join(top5, select(google_data, Week, `Google Trends`), by = c("week_start" = "Week"))
+drops <- c("week","week_end", "open_avg", "market_avg", "close_ratio_avg")
+top5 <- top5[ , !(names(top5) %in% drops)]
+# top5 <- select(top5, symbol, week_start, open_avg, high_avg, low_avg,)
