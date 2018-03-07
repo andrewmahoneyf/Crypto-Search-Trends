@@ -22,19 +22,19 @@ shinyUI(fluidPage(
       selectInput(inputId = "currency",
                   label = "Currency:",
                   choices = c("Bitcoin (BTC)", "Ethereum (ETH)", "Ripple (XRP)", "Bitcoin Cash (BCH)", "Litecoin (LTC)", "All"),
-                  selected = "All"),
+                  selected = "Bitcoin (BTC)"),
       
       radioButtons("radio",
-                   label = "Correlations",
-                   choices = c("Google Trends", "Crypto News", "All"),
-                   selected = "Google Trends"
+                   label = "Volume Indicator:",
+                   choices = c("Search Volume", "Trade Volume"),
+                   selected = "Search Volume"
       ),
       
-      #selectInput for calorie amount #inputID = calories
-      selectInput(inputId = "price",
-                  label = "Most Recent Price:",
-                  choices = c("Less than 10", "10 - 100", "100 - 500", "500 - 1000", "Over 1000", "All"),
-                  selected= "All")
+      radioButtons("radio2",
+                   label = "Display Crypto News Updates?",
+                   choices = c("Yes", "No"),
+                   selected = "Yes"
+      )
       
     ),
     
@@ -58,6 +58,6 @@ shinyUI(fluidPage(
         )
       )
     )
-    #restore
+    
   )
 ))
