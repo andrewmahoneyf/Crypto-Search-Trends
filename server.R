@@ -27,9 +27,9 @@ shinyServer(function(input, output) {
       coin_selected <- top5
     }
     
-    if(input$radio2 == "Yes") {
-      #display news data
-    }
+    # if(input$radio2 == "Yes") {
+    #   #display news data
+    # }
 
     ggplot(data=coin_selected, aes(x=as.Date(week_start), y=close_avg)) +
       geom_point(size=.5) + geom_line(aes(color=factor(coin_selected$symbol)), size=.5) + 
