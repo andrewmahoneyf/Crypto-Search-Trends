@@ -42,22 +42,18 @@ shinyUI(fluidPage(
     # Show a plot of the generated distribution
     mainPanel(
       tabsetPanel(
-        tabPanel("Data", dataTableOutput("description")),
+        tabPanel("Summary", dataTableOutput("description")),
         tabPanel("Crypto Plot",
                  fluidRow(
                    verbatimTextOutput("info"),
                    plotOutput("coinPlot",  click = "plot_click"),
-                   plotOutput("coinPlot2"))
-        ),
-        tabPanel("Summary",
-                 h3("what we did"),
-                 p("paragraph about methodology"),
-                 h3("what we found"),
-                 p("paragraph about results/findings")
+                   plotOutput("coinPlot2")
+                   
+                 )
                  
         )
       )
     )
-    
+    #restore
   )
 ))
