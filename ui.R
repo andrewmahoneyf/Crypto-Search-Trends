@@ -26,8 +26,8 @@ shinyUI(fluidPage(
       
       radioButtons("radio",
                    label = "Volume Indicator:",
-                   choices = c("Search Volume", "Trade Volume"),
-                   selected = "Search Volume"
+                   choices = c("Search Volume (percentile rank)", "Trade Volume (quantity of trades)"),
+                   selected = "Search Volume (percentile rank)"
       ),
       
       radioButtons("radio2",
@@ -50,9 +50,13 @@ shinyUI(fluidPage(
                    plotOutput("coinPlot2"))
         ),
         tabPanel("Summary",
-                 h3("what we did"),
-                 p("paragraph about methodology"),
-                 h3("what we found"),
+                 h3("Data Sources"),
+                 p("We used data from GitHub user JesseVent's \"crypto\" repository, which containeds historical cryptocurrency 
+                   prices and market data for all different cryptocurrency tokens. Additionally, we used Google Trends data 
+                   related to our selected cryptocurrencies. We then pulled all of the data ranging back to the start of 2017, 
+                   as cryptocurrency activity has been more prominent (and arguably more interesting) recently than ever before, 
+                   due to rising popularity and a heightened sense of legitimacy from the public."),
+                 h3("Findings"),
                  p("paragraph about results/findings")
                  
         )

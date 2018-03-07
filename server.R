@@ -64,7 +64,7 @@ shinyServer(function(input, output) {
       coin_selected <- top5
     }
     
-    if(input$radio == "Search Volume (Percentile Rank)") {
+    if(input$radio == "Search Volume (percentile rank)") {
       correlation <- coin_selected %>% select(week_start,`Google Trends`)
     } else { #Display trade volume
       correlation <- coin_selected %>% select(week_start, volume_avg)
