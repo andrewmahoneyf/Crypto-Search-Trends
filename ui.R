@@ -28,6 +28,12 @@ shinyUI(fluidPage(
                    label = "Volume Indicator:",
                    choices = c("Search Volume (percentile rank)", "Trade Volume (quantity of trades)"),
                    selected = "Search Volume (percentile rank)"
+      ), 
+      
+      radioButtons("radio2",
+                   label = "Volume Chart Format:",
+                   choices = c("Bar Graph", "Plot line"),
+                   selected = "Bar Graph"
       )
       
       # ,radioButtons("radio2",

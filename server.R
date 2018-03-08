@@ -60,20 +60,29 @@ shinyServer(function(input, output) {
       
   })
   
-  output$coinPlot2 <- renderPlot({
+  output$coinPlot2 <- renderPlot({ 
     coin_selected <- GetCoinSelected(input)
     correlation <- GetCorrelation(input, coin_selected)
-
-    ggplot(correlation, aes(x=as.Date(week_start), y=correlation[2])) +
-      geom_bar(stat = "identity", aes(color=factor(coin_selected$symbol)),show.legend = F) + 
-      theme(plot.background = element_rect(fill="black")) + labs(y = "Volume", x = "Month") +
-      theme(panel.background = element_rect(fill = "black")) +
-      scale_x_date(breaks = date_breaks("months"), labels = date_format("%b-%y")) +
-      theme(axis.text.y=element_text(color="white")) + theme(axis.text.x=element_text(colour="white")) + 
-      theme(axis.title = red.text) + scale_color_discrete(name="Indicator", label = input$radio) + 
-      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
     
-  })
+    if(input$radio2 == "Bar Graph") {
+      ggplot(correlation, aes(x=as.Date(week_start), y=correlation[2])) +
+        geom_bar(stat = "identity", aes(color=factor(coin_selected$symbol)),show.legend = F) + 
+        theme(plot.background = element_rect(fill="black")) + labs(y = "Volume", x = "Month") +
+        theme(panel.background = element_rect(fill = "black")) +
+        scale_x_date(breaks = date_breaks("months"), labels = date_format("%b-%y")) +
+        theme(axis.text.y=element_text(color="white")) + theme(axis.text.x=element_text(colour="white")) + 
+        theme(axis.title = red.text) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    } else { #Display trade volume
+      ggplot(correlation, aes(x=as.Date(week_start), y=correlation[2])) +
+        geom_line(stat = "identity", aes(color=factor(coin_selected$symbol)),show.legend = F) + 
+        theme(plot.background = element_rect(fill="black")) + labs(y = "Volume", x = "Month") +
+        theme(panel.background = element_rect(fill = "black")) +
+        scale_x_date(breaks = date_breaks("months"), labels = date_format("%b-%y")) +
+        theme(axis.text.y=element_text(color="white")) + theme(axis.text.x=element_text(colour="white")) + 
+        theme(axis.title = red.text) + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    }
+    
+  }, height = 150, units="px")
   
   output$description <- renderDataTable({
     top5 <- top5 %>% select(Symbol = symbol, Week = week_start, Open = open_avg, Close = close_avg, Low = low_avg, High = high_avg, Volume = volume_avg, `Market Cap` = market_avg, `Google Trends`)
