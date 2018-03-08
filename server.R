@@ -28,7 +28,7 @@ GetCoinSelected <- function(input){
 }
 
 GetCorrelation <- function(input, coin_selected){
-  if(input$radio == "Search Volume (percentile rank)") {
+  if(input$radio == "Google Search Volume (percentile rank)") {
     correlation <- coin_selected %>% select(week_start,`Google Trends`)
   } else { #Display trade volume
     correlation <- coin_selected %>% select(week_start, volume_avg)
@@ -37,7 +37,7 @@ GetCorrelation <- function(input, coin_selected){
 }
 
 IsNewsDisplayed <- function(input){
-  return(input$radio2 == "Yes")
+  return(input$radio3 == "Yes")
 }
 
 shinyServer(function(input, output) {
@@ -51,11 +51,12 @@ shinyServer(function(input, output) {
       theme(plot.background = element_rect(fill="black")) + theme(legend.position='top') +
       theme(panel.background = element_rect(fill = "black")) +
       theme(axis.text.y=element_text(color="white")) + theme(axis.title = red.text) + 
-      labs(title=paste(input$currency,"Price Correlation"), y="Average Close Price", color="Trend Line ") +
+      labs(title=paste(input$currency,"Price Correlation"), y="Average Close Price (USD)", color="Trend Line ") +
       theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank()) +
       theme(legend.title = element_text(colour = "steelblue",  face = "bold", size = (30)), 
             legend.text = element_text(face = "italic", colour="steelblue4", size = (20)), 
             legend.background = element_rect(fill="black")) +
+      guides(color = guide_legend(override.aes = list(size = 6))) +
       theme(panel.grid.major.x = element_blank(), panel.grid.minor.x = element_blank())
       
   })
@@ -100,7 +101,7 @@ shinyServer(function(input, output) {
   }, options = list(pageLength = 50)) 
 
   output$info <- renderText({
-    paste0("x=", as.Date(input$plot_click$x, origin = "1970-01-01") , "\ny=", input$plot_click$y)
+    paste0("\t\t\t\tDate: ", as.Date(input$plot_click$x, origin = "1970-01-01") , "\tPrice: $", round(input$plot_click$y, 2))
   })
   
 })
