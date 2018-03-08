@@ -78,6 +78,4 @@ top5 <- rbind(bitcoin[, 1:11], ethereum[, 1:11], ripple[, 1:11], bitcoin_cash[, 
 google_data[2:6] <- data.frame(sapply(google_data[2:6], function(x) as.numeric(as.character(x))))
 google_data$`Google Trends` <- rowMeans(google_data[2:6])
 top5 <- left_join(top5, select(google_data, Week, `Google Trends`), by = c("week_start" = "Week"))
-drops <- c("week","week_end", "open_avg", "market_avg", "close_ratio_avg")
-top5 <- top5[ , !(names(top5) %in% drops)]
-# top5 <- select(top5, symbol, week_start, open_avg, high_avg, low_avg,)
+
