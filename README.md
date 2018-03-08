@@ -22,5 +22,5 @@ As one may expect, we found that cryptocurrency prices varied very consistently 
                  
 ## Where we got our data
 
-[Hystorical Cryptocurrency Dataset - Kaggle](https://www.kaggle.com/jessevent/all-crypto-currencies)
+[Hystorical Cryptocurrency Dataset - Kaggle](https://www.kaggle.com/jessevent/all-crypto-currencies) |
 [Google Trends API](https://trends.google.com/trends/)
