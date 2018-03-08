@@ -2,7 +2,7 @@
 
 ## Google Search Activity vs. Cryptocurrency Prices: Is there a pattern here?
 
-Our group wanted to look at the relation of Google keyword search and historical cryptocurrency market prices had on each other. We pulled data resources from various users and locations, cleaned that dataset to fit our study, then hosted our visualizations as shiny app. To answer the question of whether or not higher query hits of cryptocurrency keywords relates to a higher crypto- market value, we built a visualization containing two types of graphs and a filtering section to match the focus of our study and our users."),
+Our group wanted to look at the relation of Google keyword search and historical cryptocurrency market prices had on each other. We pulled data resources from various users and locations, cleaned that dataset to fit our study, then hosted our visualizations as shiny app. To answer the question of whether or not higher query hits of cryptocurrency keywords relates to a higher crypto- market value, we built a visualization containing two types of graphs and a filtering section to match the focus of our study and our users.
 
 ## Two type of visualization and what they mean
 
@@ -14,7 +14,7 @@ When clicking on the 'Data' tab, you will be presented with the raw data that wa
                 
 ## Data Sources
 
-We used data from GitHub user JesseVent's \"crypto\" repository, which containeds historical cryptocurrency prices and market data for all different cryptocurrency tokens. The dataset includes 1515 different coins, 13 variables, and over 700,000 observations with dates from 2013 until now. We downloaded the crypto history data through R using a custom function provided by the development library from the developer. Additionally, we used Google Trends data related to our selected cryptocurrencies. We then pulled all of the data ranging back to the start of 2017, as cryptocurrency activity has been more prominent (and arguably more interesting) recently than ever before, due to rising popularity and a heightened sense of legitimacy from the public."),
+We used data from GitHub user JesseVent's "crypto" repository, which containeds historical cryptocurrency prices and market data for all different cryptocurrency tokens. The dataset includes 1515 different coins, 13 variables, and over 700,000 observations with dates from 2013 until now. We downloaded the crypto history data through R using a custom function provided by the development library from the developer. Additionally, we used Google Trends data related to our selected cryptocurrencies. We then pulled all of the data ranging back to the start of 2017, as cryptocurrency activity has been more prominent (and arguably more interesting) recently than ever before, due to rising popularity and a heightened sense of legitimacy from the public.
                  
 ## Findings
 
@@ -24,3 +24,8 @@ As one may expect, we found that cryptocurrency prices varied very consistently 
 
 [Hystorical Cryptocurrency Dataset - Kaggle](https://www.kaggle.com/jessevent/all-crypto-currencies) |
 [Google Trends API](https://trends.google.com/trends/)
+
+## Link to our Shiny application
+
+[CryptoCorrelation](https://andrewmahoneyf.shinyapps.io/CryptoCorrelation/)
+
