@@ -26,8 +26,8 @@ shinyUI(fluidPage(
       
       radioButtons("radio",
                    label = "Volume Indicator:",
-                   choices = c("Search Volume (percentile rank)", "Trade Volume (quantity of trades)"),
-                   selected = "Search Volume (percentile rank)"
+                   choices = c("Google Search Volume (percentile rank)", "Trade Volume (quantity of trades)"),
+                   selected = "Trade Volume (quantity of trades)"
       ), 
       
       radioButtons("radio2",
@@ -36,7 +36,7 @@ shinyUI(fluidPage(
                    selected = "Bar Graph"
       )
       
-      # ,radioButtons("radio2",
+      # ,radioButtons("radio3",
       #              label = "Display Crypto News Updates?",
       #              choices = c("Yes", "No"),
       #              selected = "Yes"
