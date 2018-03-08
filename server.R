@@ -10,27 +10,39 @@ library(forcats)
 
 red.text <- element_text(size=16, face = "bold.italic", color = "#f93e3e")
 
+GetCoinSelected <- function(input){
+  if(input$currency == "Litecoin (LTC)") {
+    coin_selected <- litecoin
+  }else if(input$currency == "Bitcoin (BTC)"){
+    coin_selected <- bitcoin
+  }else if(input$currency == "Ripple (XRP)"){
+    coin_selected <- ripple
+  }else if(input$currency == "Ethereum (ETH)"){
+    coin_selected <- ethereum
+  }else if(input$currency == "Bitcoin Cash (BCH)"){
+    coin_selected <- bitcoin_cash
+  }else {
+    coin_selected <- top5
+  }
+  return(coin_selected)
+}
+
+GetCorrelation <- function(input, coin_selected){
+  if(input$radio == "Search Volume (percentile rank)") {
+    correlation <- coin_selected %>% select(week_start,`Google Trends`)
+  } else { #Display trade volume
+    correlation <- coin_selected %>% select(week_start, volume_avg)
+  }
+  return(correlation)
+}
+
+IsNewsDisplayed <- function(input){
+  return(input$radio2 == "Yes")
+}
+
 shinyServer(function(input, output) {
   output$coinPlot <- renderPlot({
-    
-    if(input$currency == "Litecoin (LTC)") {
-      coin_selected <- litecoin
-    }else if(input$currency == "Bitcoin (BTC)"){
-      coin_selected <- bitcoin
-    }else if(input$currency == "Ripple (XRP)"){
-      coin_selected <- ripple
-    }else if(input$currency == "Ethereum (ETH)"){
-      coin_selected <- ethereum
-    }else if(input$currency == "Bitcoin Cash (BCH)"){
-      coin_selected <- bitcoin_cash
-    }else {
-      coin_selected <- top5
-    }
-    
-    # if(input$radio2 == "Yes") {
-    #   #display news data
-    # }
-
+    coin_selected <- GetCoinSelected(input)
     ggplot(data=coin_selected, aes(x=as.Date(week_start), y=close_avg)) +
       geom_point(size=.5) + geom_line(aes(color=factor(coin_selected$symbol)), size=.5) + 
       geom_errorbar(aes(ymin=low_avg, ymax=high_avg,color=factor(coin_selected$symbol)),
@@ -49,27 +61,9 @@ shinyServer(function(input, output) {
   })
   
   output$coinPlot2 <- renderPlot({
-    
-    if(input$currency == "Litecoin (LTC)") {
-      coin_selected <- litecoin
-    }else if(input$currency == "Bitcoin (BTC)"){
-      coin_selected <- bitcoin
-    }else if(input$currency == "Ripple (XRP)"){
-      coin_selected <- ripple
-    }else if(input$currency == "Ethereum (ETH)"){
-      coin_selected <- ethereum
-    }else if(input$currency == "Bitcoin Cash (BCH)"){
-      coin_selected <- bitcoin_cash
-    }else {
-      coin_selected <- top5
-    }
-    
-    if(input$radio == "Search Volume (percentile rank)") {
-      correlation <- coin_selected %>% select(week_start,`Google Trends`)
-    } else { #Display trade volume
-      correlation <- coin_selected %>% select(week_start, volume_avg)
-    }
-    
+    coin_selected <- GetCoinSelected(input)
+    correlation <- GetCorrelation(input, coin_selected)
+
     ggplot(correlation, aes(x=as.Date(week_start), y=correlation[2])) +
       geom_bar(stat = "identity", aes(color=factor(coin_selected$symbol)),show.legend = F) + 
       theme(plot.background = element_rect(fill="black")) + labs(y = "Volume", x = "Month") +
@@ -79,7 +73,7 @@ shinyServer(function(input, output) {
       theme(axis.title = red.text) + scale_color_discrete(name="Indicator", label = input$radio) + 
       theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
     
-  }, height = 125, units="px")
+  })
   
   output$description <- renderDataTable({
     top5 <- top5 %>% select(Symbol = symbol, Week = week_start, Open = open_avg, Close = close_avg, Low = low_avg, High = high_avg, Volume = volume_avg, `Market Cap` = market_avg, `Google Trends`)
@@ -95,7 +89,6 @@ shinyServer(function(input, output) {
     top5$`Market Cap` <- toUSD(top5$`Market Cap`)
     top5
   }, options = list(pageLength = 50)) 
-
 
   output$info <- renderText({
     paste0("x=", as.Date(input$plot_click$x, origin = "1970-01-01") , "\ny=", input$plot_click$y)
