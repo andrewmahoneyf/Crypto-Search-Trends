@@ -22,7 +22,7 @@ shinyUI(fluidPage(
       selectInput(inputId = "currency",
                   label = "Currency:",
                   choices = c("Bitcoin (BTC)", "Ethereum (ETH)", "Ripple (XRP)", "Bitcoin Cash (BCH)", "Litecoin (LTC)", "All"),
-                  selected = "Bitcoin (BTC)"),
+                  selected = "All"),
       
       radioButtons("radio",
                    label = "Volume Indicator:",
@@ -42,13 +42,6 @@ shinyUI(fluidPage(
     # Show a plot of the generated distribution
     mainPanel(
       tabsetPanel(
-        tabPanel("Data", dataTableOutput("description")),
-        tabPanel("Crypto Plot",
-                 fluidRow(
-                   verbatimTextOutput("info"),
-                   plotOutput("coinPlot",  click = "plot_click"),
-                   plotOutput("coinPlot2"))
-        ),
         tabPanel("Summary",
                  h3("Data Sources"),
                  p("We used data from GitHub user JesseVent's \"crypto\" repository, which containeds historical cryptocurrency 
@@ -70,6 +63,13 @@ shinyUI(fluidPage(
                    cryptocurrency prices because such increased popularity could be viewed as an increase in public perception 
                    and be marked as an indicator for a price rise.")
                  
+        ),
+        tabPanel("Data", dataTableOutput("description")),
+        tabPanel("Crypto Plot",
+                 fluidRow(
+                   verbatimTextOutput("info"),
+                   plotOutput("coinPlot",  click = "plot_click"),
+                   plotOutput("coinPlot2"))
         )
       )
     )

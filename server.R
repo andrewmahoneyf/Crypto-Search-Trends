@@ -39,7 +39,7 @@ shinyServer(function(input, output) {
       theme(plot.background = element_rect(fill="black")) + theme(legend.position='top') +
       theme(panel.background = element_rect(fill = "black")) +
       theme(axis.text.y=element_text(color="white")) + theme(axis.title = red.text) + 
-      labs(title=paste(input$currency,"Price Correlation"), y="Average Close Price", color="Trend Line") +
+      labs(title=paste(input$currency,"Price Correlation"), y="Average Close Price", color="Trend Line ") +
       theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank()) +
       theme(legend.title = element_text(colour = "steelblue",  face = "bold", size = (30)), 
             legend.text = element_text(face = "italic", colour="steelblue4", size = (20)), 
@@ -81,7 +81,20 @@ shinyServer(function(input, output) {
     
   }, height = 125, units="px")
   
-  output$description <- renderDataTable({top5}, options = list(pageLength = 50)) 
+  output$description <- renderDataTable({
+    top5 <- top5 %>% select(Symbol = symbol, Week = week_start, Open = open_avg, Close = close_avg, Low = low_avg, High = high_avg, Volume = volume_avg, `Market Cap` = market_avg, `Google Trends`)
+    top5$Week <- format(as.Date(top5$Week, "%Y-%m-%d"), "%m-%d %Y")
+    
+    toUSD <- function(column){
+      return(paste("$", round(column, 2), sep=""))
+    }
+    top5$Low <- toUSD(top5$Low)
+    top5$Open <- toUSD(top5$Open)
+    top5$High <- toUSD(top5$High)
+    top5$Close <- toUSD(top5$Close)
+    top5$`Market Cap` <- toUSD(top5$`Market Cap`)
+    top5
+  }, options = list(pageLength = 50)) 
 
 
   output$info <- renderText({
